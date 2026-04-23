@@ -125,177 +125,180 @@ SimpleTalk combines the familiarity of WhatsApp with smart CRM features:
 
 ```
 simpletal-crm/
-├── public/
-│   ├── favicon.ico
-│   ├── logo.svg
-│   └── robots.txt
-│
-├── src/
-│   ├── components/
-│   │   ├── common/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── Sidebar.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   └── ErrorBoundary.jsx
+├── frontend/
+│   ├── public/
+│   │   ├── favicon.ico
+│   │   ├── logo.svg
+│   │   └── robots.txt
+│   │
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   │   ├── Navbar.jsx
+│   │   │   │   ├── Sidebar.jsx
+│   │   │   │   ├── Footer.jsx
+│   │   │   │   └── ErrorBoundary.jsx
+│   │   │   │
+│   │   │   ├── ui/
+│   │   │   │   ├── Button.jsx
+│   │   │   │   ├── Input.jsx
+│   │   │   │   ├── Card.jsx
+│   │   │   │   ├── Modal.jsx
+│   │   │   │   ├── Badge.jsx
+│   │   │   │   ├── Avatar.jsx
+│   │   │   │   ├── Skeleton.jsx
+│   │   │   │   └── Toast.jsx
+│   │   │   │
+│   │   │   ├── contacts/
+│   │   │   │   ├── ContactList.jsx
+│   │   │   │   ├── ContactCard.jsx
+│   │   │   │   ├── ContactDetail.jsx
+│   │   │   │   ├── AddContactModal.jsx
+│   │   │   │   └── ContactFilter.jsx
+│   │   │   │
+│   │   │   ├── chats/
+│   │   │   │   ├── ChatWindow.jsx
+│   │   │   │   ├── ChatBubble.jsx
+│   │   │   │   ├── MessageThread.jsx
+│   │   │   │   ├── QuickActions.jsx
+│   │   │   │   └── ChatSearch.jsx
+│   │   │   │
+│   │   │   ├── tasks/
+│   │   │   │   ├── TaskList.jsx
+│   │   │   │   ├── TaskCard.jsx
+│   │   │   │   ├── TaskForm.jsx
+│   │   │   │   ├── TaskModal.jsx
+│   │   │   │   └── TaskFilter.jsx
+│   │   │   │
+│   │   │   ├── dashboard/
+│   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── MetricCard.jsx
+│   │   │   │   ├── TaskOverview.jsx
+│   │   │   │   └── AnalyticsChart.jsx
+│   │   │   │
+│   │   │   ├── payments/
+│   │   │   │   ├── PaymentTracker.jsx
+│   │   │   │   ├── PaymentForm.jsx
+│   │   │   │   ├── PaymentHistory.jsx
+│   │   │   │   └── InvoiceGenerator.jsx
+│   │   │   │
+│   │   │   └── settings/
+│   │   │       ├── Settings.jsx
+│   │   │       ├── AccountSettings.jsx
+│   │   │       ├── NotificationPreferences.jsx
+│   │   │       └── ThemeToggle.jsx
 │   │   │
-│   │   ├── ui/
-│   │   │   ├── Button.jsx
-│   │   │   ├── Input.jsx
-│   │   │   ├── Card.jsx
-│   │   │   ├── Modal.jsx
-│   │   │   ├── Badge.jsx
-│   │   │   ├── Avatar.jsx
-│   │   │   ├── Skeleton.jsx
-│   │   │   └── Toast.jsx
-│   │   │
-│   │   ├── contacts/
-│   │   │   ├── ContactList.jsx
-│   │   │   ├── ContactCard.jsx
-│   │   │   ├── ContactDetail.jsx
-│   │   │   ├── AddContactModal.jsx
-│   │   │   └── ContactFilter.jsx
-│   │   │
-│   │   ├── chats/
-│   │   │   ├── ChatWindow.jsx
-│   │   │   ├── ChatBubble.jsx
-│   │   │   ├── MessageThread.jsx
-│   │   │   ├── QuickActions.jsx
-│   │   │   └── ChatSearch.jsx
-│   │   │
-│   │   ├── tasks/
-│   │   │   ├── TaskList.jsx
-│   │   │   ├── TaskCard.jsx
-│   │   │   ├── TaskForm.jsx
-│   │   │   ├── TaskModal.jsx
-│   │   │   └── TaskFilter.jsx
-│   │   │
-│   │   ├── dashboard/
+│   │   ├── pages/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
 │   │   │   ├── Dashboard.jsx
-│   │   │   ├── MetricCard.jsx
-│   │   │   ├── TaskOverview.jsx
-│   │   │   └── AnalyticsChart.jsx
+│   │   │   ├── ContactsPage.jsx
+│   │   │   ├── ChatPage.jsx
+│   │   │   ├── TasksPage.jsx
+│   │   │   ├── PaymentsPage.jsx
+│   │   │   ├── SettingsPage.jsx
+│   │   │   ├── NotFound.jsx
+│   │   │   └── Unauthorized.jsx
 │   │   │
-│   │   ├── payments/
-│   │   │   ├── PaymentTracker.jsx
-│   │   │   ├── PaymentForm.jsx
-│   │   │   ├── PaymentHistory.jsx
-│   │   │   └── InvoiceGenerator.jsx
+│   │   ├── features/
+│   │   │   ├── auth/
+│   │   │   │   ├── authSlice.js
+│   │   │   │   ├── authService.js
+│   │   │   │   └── useAuth.js
+│   │   │   │
+│   │   │   ├── contacts/
+│   │   │   │   ├── contactsSlice.js
+│   │   │   │   ├── contactsService.js
+│   │   │   │   └── useContacts.js
+│   │   │   │
+│   │   │   ├── chats/
+│   │   │   │   ├── chatsSlice.js
+│   │   │   │   ├── chatsService.js
+│   │   │   │   └── useChats.js
+│   │   │   │
+│   │   │   ├── tasks/
+│   │   │   │   ├── tasksSlice.js
+│   │   │   │   ├── tasksService.js
+│   │   │   │   └── useTasks.js
+│   │   │   │
+│   │   │   ├── payments/
+│   │   │   │   ├── paymentsSlice.js
+│   │   │   │   ├── paymentsService.js
+│   │   │   │   └── usePayments.js
+│   │   │   │
+│   │   │   └── ui/
+│   │   │       ├── uiSlice.js
+│   │   │       └── useUI.js
 │   │   │
-│   │   └── settings/
-│   │       ├── Settings.jsx
-│   │       ├── AccountSettings.jsx
-│   │       ├── NotificationPreferences.jsx
-│   │       └── ThemeToggle.jsx
-│   │
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── Login.jsx
-│   │   ├── Signup.jsx
-│   │   ├── Dashboard.jsx
-│   │   ├── ContactsPage.jsx
-│   │   ├── ChatPage.jsx
-│   │   ├── TasksPage.jsx
-│   │   ├── PaymentsPage.jsx
-│   │   ├── SettingsPage.jsx
-│   │   ├── NotFound.jsx
-│   │   └── Unauthorized.jsx
-│   │
-│   ├── features/
-│   │   ├── auth/
-│   │   │   ├── authSlice.js
+│   │   ├── hooks/
+│   │   │   ├── useAuth.js
+│   │   │   ├── useDebounce.js
+│   │   │   ├── useFetch.js
+│   │   │   ├── useTheme.js
+│   │   │   ├── useLocalStorage.js
+│   │   │   ├── useSessionStorage.js
+│   │   │   ├── usePagination.js
+│   │   │   └── useAsync.js
+│   │   │
+│   │   ├── services/
+│   │   │   ├── api.js (Axios instance + interceptors)
 │   │   │   ├── authService.js
-│   │   │   └── useAuth.js
+│   │   │   ├── contactService.js
+│   │   │   ├── chatService.js
+│   │   │   ├── taskService.js
+│   │   │   ├── paymentService.js
+│   │   │   ├── whatsappService.js
+│   │   │   └── analyticsService.js
 │   │   │
-│   │   ├── contacts/
-│   │   │   ├── contactsSlice.js
-│   │   │   ├── contactsService.js
-│   │   │   └── useContacts.js
+│   │   ├── utils/
+│   │   │   ├── formatters.js (dates, currency)
+│   │   │   ├── validators.js (email, phone, etc.)
+│   │   │   ├── constants.js (API URLs, error codes)
+│   │   │   ├── localStorage.js (helper functions)
+│   │   │   ├── sessionStorage.js (helper functions)
+│   │   │   ├── notification.js (toast/notification helpers)
+│   │   │   └── errorHandler.js (global error handling)
 │   │   │
-│   │   ├── chats/
-│   │   │   ├── chatsSlice.js
-│   │   │   ├── chatsService.js
-│   │   │   └── useChats.js
+│   │   ├── styles/
+│   │   │   ├── globals.css
+│   │   │   ├── tailwind.config.js
+│   │   │   └── theme.js
 │   │   │
-│   │   ├── tasks/
-│   │   │   ├── tasksSlice.js
-│   │   │   ├── tasksService.js
-│   │   │   └── useTasks.js
+│   │   ├── redux/
+│   │   │   ├── store.js (Redux store configuration)
+│   │   │   ├── rootReducer.js
+│   │   │   └── middleware.js (custom middleware)
 │   │   │
-│   │   ├── payments/
-│   │   │   ├── paymentsSlice.js
-│   │   │   ├── paymentsService.js
-│   │   │   └── usePayments.js
+│   │   ├── routes/
+│   │   │   ├── Routes.jsx
+│   │   │   ├── ProtectedRoute.jsx
+│   │   │   ├── RouteGuard.jsx
+│   │   │   └── routeConfig.js
 │   │   │
-│   │   └── ui/
-│   │       ├── uiSlice.js
-│   │       └── useUI.js
+│   │   ├── config/
+│   │   │   ├── api.config.js
+│   │   │   ├── app.config.js
+│   │   │   └── theme.config.js
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── main.jsx
 │   │
-│   ├── hooks/
-│   │   ├── useAuth.js
-│   │   ├── useDebounce.js
-│   │   ├── useFetch.js
-│   │   ├── useTheme.js
-│   │   ├── useLocalStorage.js
-│   │   ├── useSessionStorage.js
-│   │   ├── usePagination.js
-│   │   └── useAsync.js
-│   │
-│   ├── services/
-│   │   ├── api.js (Axios instance + interceptors)
-│   │   ├── authService.js
-│   │   ├── contactService.js
-│   │   ├── chatService.js
-│   │   ├── taskService.js
-│   │   ├── paymentService.js
-│   │   ├── whatsappService.js
-│   │   └── analyticsService.js
-│   │
-│   ├── utils/
-│   │   ├── formatters.js (dates, currency)
-│   │   ├── validators.js (email, phone, etc.)
-│   │   ├── constants.js (API URLs, error codes)
-│   │   ├── localStorage.js (helper functions)
-│   │   ├── sessionStorage.js (helper functions)
-│   │   ├── notification.js (toast/notification helpers)
-│   │   └── errorHandler.js (global error handling)
-│   │
-│   ├── styles/
-│   │   ├── globals.css
-│   │   ├── tailwind.config.js
-│   │   └── theme.js
-│   │
-│   ├── redux/
-│   │   ├── store.js (Redux store configuration)
-│   │   ├── rootReducer.js
-│   │   └── middleware.js (custom middleware)
-│   │
-│   ├── routes/
-│   │   ├── Routes.jsx
-│   │   ├── ProtectedRoute.jsx
-│   │   ├── RouteGuard.jsx
-│   │   └── routeConfig.js
-│   │
-│   ├── config/
-│   │   ├── api.config.js
-│   │   ├── app.config.js
-│   │   └── theme.config.js
-│   │
-│   ├── App.jsx
-│   ├── App.css
-│   └── main.jsx
+│   ├── .env.example
+│   ├── .env.local
+│   ├── .eslintrc.json
+│   ├── .prettierrc
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── DEVELOPMENT.md
+│   ├── DEPLOYMENT.md
+│   └── .gitignore
 │
-├── .env.example
-├── .env.local
-├── .eslintrc.json
-├── .prettierrc
-├── tailwind.config.js
-├── vite.config.js
-├── package.json
-├── package-lock.json
-├── README.md
-├── DEVELOPMENT.md
-├── DEPLOYMENT.md
-└── .gitignore
+└── backend/
 ```
 
 ---
@@ -306,7 +309,7 @@ simpletal-crm/
 - **Node.js:** v18.x or higher
 - **npm/pnpm:** Latest version
 - **Git:** For version control
-- **Figma:** Design reference (already created)
+- **Figma:** [Design reference](https://www.figma.com/design/w5NCRHCEUXH2clk8mVjSjL/Untitled?node-id=8-2712&t=K8xsDhQUCYCmvooT-1)
 - **WhatsApp Business Account:** For API access (optional for development)
 
 ### Step 1: Clone Repository
@@ -370,7 +373,7 @@ The app will be available at `http://localhost:5173`
 ## 📝 Development Guidelines
 
 ### 1. Design Approval (MANDATORY - COMPLETED ✅)
-- [x] Figma design created: [Link](https://www.figma.com/proto/w5NCRHCEUXH2clk8mVjSjL/Untitled)
+- [x] Figma design created: [Link](https://www.figma.com/design/w5NCRHCEUXH2clk8mVjSjL/Untitled?node-id=8-2712&t=K8xsDhQUCYCmvooT-1)
 - [x] All major screens designed (Contacts, Chat, Dashboard, Tasks, Payments, Settings)
 - [x] Desktop design complete
 - [x] Consistent design system (colors, typography, spacing)
