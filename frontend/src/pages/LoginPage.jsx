@@ -1,10 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MessageSquare, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -15,7 +18,7 @@ const LoginPage = () => {
       password: Yup.string().min(6, 'Must be at least 6 characters').required('Required'),
     }),
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      navigate('/dashboard');
     },
   });
 
