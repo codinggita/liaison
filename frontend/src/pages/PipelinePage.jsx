@@ -105,16 +105,34 @@ const PipelinePage = () => {
     }
   ]);
 
+  const winRate = useMemo(() => {
+    let total = 0;
+    let won = 0;
+    pipelineData.forEach(col => {
+      total += col.cards.length;
+      if (col.id === "col-4") won += col.cards.length;
+    });
+    return total === 0 ? 0 : Math.round((won / total) * 100);
+  }, [pipelineData]);
+
   const totalForecast = useMemo(() => {
     let total = 0;
     pipelineData.forEach(col => {
       col.cards.forEach(card => {
-        const val = parseInt(card.value.toString().replace(/[^0-9]/g, "")) || 0;
-        total += val;
+        // Only count cards that match the search criteria
+        const name = card.name || "";
+        const subtitle = card.subtitle || "";
+        const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             subtitle.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        if (matchesSearch) {
+          const val = parseInt((card.value || "0").toString().replace(/[^0-9]/g, "")) || 0;
+          total += val;
+        }
       });
     });
     return total.toLocaleString("en-IN");
-  }, [pipelineData]);
+  }, [pipelineData, searchQuery]);
 
   const unreadCount = notifications.filter(n => n.unread).length;
 
@@ -386,26 +404,34 @@ const PipelinePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            {pipelineData.map((column, colIdx) => (
-              <motion.div 
-                key={column.id} 
-                className="kanban-column"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: colIdx * 0.1 }}
-              >
-                <div className="column-header">
-                  <div className="title-box">
-                    <div className="status-dot"></div>
-                    <h3>{column.title}</h3>
-                    <span className="count-pill">{column.count}</span>
+            {pipelineData.map((column, colIdx) => {
+              const filteredCards = column.cards.filter(card => {
+                const name = card.name || "";
+                const subtitle = card.subtitle || "";
+                return name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                       subtitle.toLowerCase().includes(searchQuery.toLowerCase());
+              });
+              
+              return (
+                <motion.div 
+                  key={column.id} 
+                  className="kanban-column"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: colIdx * 0.1 }}
+                >
+                  <div className="column-header">
+                    <div className="title-box">
+                      <div className="status-dot"></div>
+                      <h3>{column.title}</h3>
+                      <span className="count-pill">{filteredCards.length}</span>
+                    </div>
+                    <Plus size={18} className="add-deal-icon" onClick={(e) => { e.stopPropagation(); openAddModal(column.id); }} />
                   </div>
-                  <Plus size={18} className="add-deal-icon" onClick={(e) => { e.stopPropagation(); openAddModal(column.id); }} />
-                </div>
 
-                <div className="column-cards-list">
-                  <AnimatePresence>
-                    {column.cards.map((card, cardIdx) => (
+                  <div className="column-cards-list">
+                    <AnimatePresence>
+                      {filteredCards.map((card, cardIdx) => (
                       <motion.div 
                         key={card.id}
                         layout
@@ -490,7 +516,8 @@ const PipelinePage = () => {
                   </AnimatePresence>
                 </div>
               </motion.div>
-            ))}
+            );
+          })}
           </motion.div>
         </div>
 
@@ -498,12 +525,12 @@ const PipelinePage = () => {
           <div className="stats-card win-rate">
             <div className="stats-label">WIN RATE</div>
             <div className="stats-main">
-              <h2>68%</h2>
+              <h2>{winRate}%</h2>
               <div className="progress-ring">
                 <svg width="40" height="40">
                   <circle cx="20" cy="20" r="16" stroke="#e2ece8" strokeWidth="4" fill="none" />
                   <circle cx="20" cy="20" r="16" stroke="#125143" strokeWidth="4" fill="none" 
-                          strokeDasharray="100.5" strokeDashoffset={100.5 - (100.5 * 0.68)} strokeLinecap="round" />
+                          strokeDasharray="100.5" strokeDashoffset={100.5 - (100.5 * (winRate / 100))} strokeLinecap="round" />
                 </svg>
               </div>
             </div>

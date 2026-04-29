@@ -84,6 +84,7 @@ const DashboardPage = () => {
   ]);
 
   const [newLead, setNewLead] = useState({ name: "", company: "" });
+  const [searchQuery, setSearchQuery] = useState("");
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -189,6 +190,11 @@ const DashboardPage = () => {
 
   const unreadCount = notifications.filter(n => n.unread).length;
 
+  const filteredLeads = leads.filter(lead => 
+    lead.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    lead.company.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="dashboard-container" onClick={() => setIsNotificationOpen(false)}>
       {/* Sidebar */}
@@ -246,7 +252,13 @@ const DashboardPage = () => {
           </div>
           <div className="header-search">
             <Search size={18} className="search-icon" />
-            <input type="text" placeholder="Search relationships..." className="search-input" />
+            <input 
+              type="text" 
+              placeholder="Search relationships..." 
+              className="search-input" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
           <div className="header-actions">
             <div className="notification-wrapper">
@@ -377,25 +389,33 @@ const DashboardPage = () => {
                 <button className="view-all">View All Relationships</button>
               </div>
               <div className="leads-list">
-                {leads.map((lead, index) => (
-                  <motion.div 
-                    key={lead.id} 
-                    initial={{ x: -20, opacity: 0 }} 
-                    animate={{ x: 0, opacity: 1 }} 
-                    transition={{ delay: 0.4 + (index * 0.1) }}
-                    className="lead-item"
-                  >
-                    <img src={lead.avatar} alt={lead.name} className="lead-avatar" />
-                    <div className="lead-info">
-                      <div className="lead-name-row">
-                        <h3>{lead.name}</h3>
-                        <span className={`badge badge-${lead.badgeType}`}>{lead.badge}</span>
+                {filteredLeads.length === 0 ? (
+                  <div className="empty-search-state">
+                    <Search size={32} />
+                    <p>No relationships found matching "{searchQuery}"</p>
+                    <span>Try searching for a different name or company.</span>
+                  </div>
+                ) : (
+                  filteredLeads.map((lead, index) => (
+                    <motion.div 
+                      key={lead.id} 
+                      initial={{ x: -20, opacity: 0 }} 
+                      animate={{ x: 0, opacity: 1 }} 
+                      transition={{ delay: 0.4 + (index * 0.1) }}
+                      className="lead-item"
+                    >
+                      <img src={lead.avatar} alt={lead.name} className="lead-avatar" />
+                      <div className="lead-info">
+                        <div className="lead-name-row">
+                          <h3>{lead.name}</h3>
+                          <span className={`badge badge-${lead.badgeType}`}>{lead.badge}</span>
+                        </div>
+                        <p className="lead-company">{lead.company}</p>
+                        <span className="lead-time">{lead.time}</span>
                       </div>
-                      <p className="lead-company">{lead.company}</p>
-                      <span className="lead-time">{lead.time}</span>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))
+                )}
               </div>
             </div>
 
