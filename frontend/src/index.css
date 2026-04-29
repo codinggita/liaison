@@ -2009,4 +2009,148 @@ body {
 .menu-item.delete:hover {
   background: #fff1f2;
   color: #e11d48;
-}
+}
+
+/* Notification Bar & Dropdown */
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.12);
+  margin-top: 15px;
+  z-index: 1000;
+  border: 1px solid rgba(226, 237, 232, 0.8);
+  overflow: hidden;
+}
+
+.dropdown-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #f1f4f3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #125143;
+}
+
+.clear-all-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a635d;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.clear-all-btn:hover {
+  color: #ef4444;
+}
+
+.dropdown-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 16px 20px;
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid #f8faf9;
+  transition: background 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-item:hover {
+  background: #fcfdfd;
+}
+
+.notif-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notif-content {
+  flex-grow: 1;
+}
+
+.notif-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #125143;
+  margin-bottom: 2px;
+}
+
+.notif-desc {
+  display: block;
+  font-size: 12px;
+  color: #6b7a77;
+  line-height: 1.4;
+}
+
+.notif-time {
+  display: block;
+  font-size: 10px;
+  color: #8c9c99;
+  margin-top: 6px;
+}
+
+.unread-glow {
+  width: 6px;
+  height: 6px;
+  background: #125143;
+  border-radius: 50%;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8c9c99;
+}
+
+.empty-state p {
+  font-weight: 700;
+  color: #4a635d;
+  margin-top: 12px;
+}
+
+.empty-state span {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
