@@ -21,7 +21,10 @@ import {
   Trash2,
   MoreVertical,
   X,
-  BellOff
+  BellOff,
+  User,
+  Zap,
+  Clock
 } from 'lucide-react';
 
 import { useState, useEffect, useRef } from 'react';
@@ -29,7 +32,32 @@ import EmojiPicker from 'emoji-picker-react';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      title: "New Lead Assigned",
+      desc: "Manoj Gupta has been assigned to your pipeline.",
+      time: "2 mins ago",
+      type: "lead",
+      unread: true
+    },
+    {
+      id: 2,
+      title: "Task Reminder",
+      desc: "Follow up with Ananya Kapoor regarding the site visit.",
+      time: "1 hour ago",
+      type: "task",
+      unread: true
+    },
+    {
+      id: 3,
+      title: "Deal Won! 🎉",
+      desc: "Deepak Verma just closed a ₹90,000 deal.",
+      time: "3 hours ago",
+      type: "success",
+      unread: false
+    }
+  ]);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isAddLeadOpen, setIsAddLeadOpen] = useState(false);
   
@@ -133,19 +161,38 @@ const DashboardPage = () => {
     setLeads([lead, ...leads]);
     setNewLead({ name: "", company: "" });
     setIsAddLeadOpen(false);
+
+    // Mock notification for adding lead
+    const newNotif = {
+      id: Date.now(),
+      title: "Lead Created",
+      desc: `${newLead.name} was successfully added to your list.`,
+      time: "Just now",
+      type: "lead",
+      unread: true
+    };
+    setNotifications([newNotif, ...notifications]);
+  };
+
+  const markAsRead = (id) => {
+    setNotifications(notifications.map(n => n.id === id ? { ...n, unread: false } : n));
+  };
+
+  const clearAllNotifications = () => {
+    setNotifications([]);
   };
 
   const onEmojiClick = (emojiObject) => {
     setInputText(prev => prev + emojiObject.emoji);
   };
 
+  const unreadCount = notifications.filter(n => n.unread).length;
+
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" onClick={() => setIsNotificationOpen(false)}>
       {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar-logo">
-          SyncSetu
-        </div>
+      <aside className="sidebar" onClick={(e) => e.stopPropagation()}>
+        <div className="sidebar-logo">SyncSetu</div>
         <nav className="sidebar-nav">
           <a href="#" className="nav-item active">
             <LayoutGrid size={18} /> Dashboard
@@ -174,11 +221,9 @@ const DashboardPage = () => {
           <button className="btn-new-message">
             <Plus size={18} /> New Message
           </button>
-
           <a href="#" className="nav-item nav-item-support">
             <HelpCircle size={18} /> Help Support
           </a>
-
           <div className="user-profile-widget">
             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Sterling" className="widget-avatar" />
             <div className="widget-info">
@@ -191,8 +236,7 @@ const DashboardPage = () => {
 
       {/* Main Content */}
       <main className="main-content">
-        {/* Top Header */}
-        <header className="dashboard-header">
+        <header className="dashboard-header" onClick={(e) => e.stopPropagation()}>
           <div className="header-left">
             <h2 className="mobile-logo">SyncSetu</h2>
           </div>
@@ -204,23 +248,29 @@ const DashboardPage = () => {
             <div className="notification-wrapper">
               <button 
                 className={`icon-btn ${isNotificationOpen ? 'active' : ''}`}
-                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsNotificationOpen(!isNotificationOpen);
+                }}
               >
                 <Bell size={20} />
-                {notifications.length > 0 && <span className="notification-dot"></span>}
+                {unreadCount > 0 && <span className="notification-dot"></span>}
               </button>
               
               <AnimatePresence>
                 {isNotificationOpen && (
                   <motion.div 
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
                     className="notification-dropdown"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <div className="dropdown-header">
                       <h3>Notifications</h3>
-                      <button onClick={() => setIsNotificationOpen(false)}><X size={16} /></button>
+                      {notifications.length > 0 && (
+                        <button className="clear-all-btn" onClick={clearAllNotifications}>Clear all</button>
+                      )}
                     </div>
                     <div className="dropdown-body">
                       {notifications.length === 0 ? (
@@ -231,8 +281,25 @@ const DashboardPage = () => {
                         </div>
                       ) : (
                         notifications.map(notif => (
-                          <div key={notif.id} className="notification-item">
-                            {notif.text}
+                          <div 
+                            key={notif.id} 
+                            className="notification-item" 
+                            onClick={() => markAsRead(notif.id)}
+                          >
+                            <div className={`notif-icon ${
+                              notif.type === 'lead' ? 'bg-teal-light' : 
+                              notif.type === 'task' ? 'bg-slate-light' : 'bg-green-light'
+                            }`}>
+                              {notif.type === 'lead' ? <User size={18} className="text-teal" /> :
+                               notif.type === 'task' ? <Clock size={18} className="text-slate" /> :
+                               <Zap size={18} className="text-green" />}
+                            </div>
+                            <div className="notif-content">
+                              <span className="notif-title">{notif.title}</span>
+                              <span className="notif-desc">{notif.desc}</span>
+                              <span className="notif-time">{notif.time}</span>
+                            </div>
+                            {notif.unread && <div className="unread-glow"></div>}
                           </div>
                         ))
                       )}
@@ -246,14 +313,12 @@ const DashboardPage = () => {
           </div>
         </header>
 
-        {/* Dashboard Overview */}
         <div className="dashboard-content">
           <div className="overview-header">
             <p className="subtitle">DASHBOARD OVERVIEW</p>
             <h1><span className="name">Namaste, Alex.</span> <span className="greeting-text">You have 4 follow-ups scheduled for today.</span></h1>
           </div>
 
-          {/* KPI Cards */}
           <div className="kpi-grid">
             <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="kpi-card outline-card border-green">
               <div className="kpi-header">
@@ -301,162 +366,142 @@ const DashboardPage = () => {
             </motion.div>
           </div>
 
-          {/* Bottom Section */}
-          <div className="dashboard-bottom">
-            {/* Recent Leads */}
-            <div className="recent-leads dashboard-card">
+          <div className="main-grid">
+            <div className="recent-leads-section">
               <div className="section-header">
                 <h2>Recent Leads</h2>
-                <a href="#" className="view-all-btn">View All Pipeline</a>
+                <button className="view-all">View All Relationships</button>
               </div>
-              <div className="lead-list">
-                <AnimatePresence>
-                  {leads.map((lead) => (
-                    <motion.div 
-                      key={lead.id}
-                      initial={{ x: -20, opacity: 0 }} 
-                      animate={{ x: 0, opacity: 1 }} 
-                      exit={{ x: 20, opacity: 0 }}
-                      className="lead-card"
-                    >
-                      <img src={lead.avatar} alt={lead.name} className="lead-avatar" />
-                      <div className="lead-info">
-                        <h4>{lead.name}</h4>
-                        <p>{lead.company}</p>
-                      </div>
-                      <div className="lead-meta">
+              <div className="leads-list">
+                {leads.map((lead, index) => (
+                  <motion.div 
+                    key={lead.id} 
+                    initial={{ x: -20, opacity: 0 }} 
+                    animate={{ x: 0, opacity: 1 }} 
+                    transition={{ delay: 0.4 + (index * 0.1) }}
+                    className="lead-item"
+                  >
+                    <img src={lead.avatar} alt={lead.name} className="lead-avatar" />
+                    <div className="lead-info">
+                      <div className="lead-name-row">
+                        <h3>{lead.name}</h3>
                         <span className={`badge badge-${lead.badgeType}`}>{lead.badge}</span>
-                        <span className="time">{lead.time}</span>
                       </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-
-              <div className="growth-watermark">
-                <h2>Growth happens<br />here.</h2>
-                <p>ADD 12 MORE LEADS TO HIT YOUR QUARTERLY TARGET</p>
+                      <p className="lead-company">{lead.company}</p>
+                      <span className="lead-time">{lead.time}</span>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
 
-            {/* Quick Thread */}
-            <div className="quick-thread dashboard-card">
-              <div className="section-header">
-                <h2>Quick Thread</h2>
-                <div className="status"><span className="dot"></span> Active Now</div>
+            <div className="chat-section outline-card">
+              <div className="chat-header">
+                <div className="chat-user">
+                  <div className="online-indicator"></div>
+                  <h2>Ananya Kapoor</h2>
+                </div>
+                <div className="chat-actions">
+                  <Search size={18} className="cursor-pointer" />
+                  <MoreVertical size={18} className="cursor-pointer" />
+                </div>
               </div>
-              <div className="chat-window">
-                <AnimatePresence>
-                  {messages.map((msg) => (
-                    <motion.div 
-                      key={msg.id}
-                      initial={{ y: 10, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ scale: 0.95, opacity: 0 }}
-                      className={`thread-message ${msg.type}`}
-                    >
-                      <div className="bubble-wrapper">
-                        <div className="bubble">
-                          {msg.text}
-                        </div>
-                        <button 
-                          className="msg-delete-btn" 
-                          onClick={() => handleDeleteMessage(msg.id)}
-                          title="Delete message"
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      </div>
-                      <div className={`sender ${msg.type === 'sent' ? 'sent-sender' : ''}`}>
-                        {msg.sender} • {msg.time}
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+              
+              <div className="chat-messages">
+                {messages.map((msg) => (
+                  <div key={msg.id} className={`message-wrapper ${msg.type}`}>
+                    <div className="message-content">
+                       {msg.type === 'sent' && (
+                         <div className="message-actions-hover">
+                           <Trash2 size={14} onClick={() => handleDeleteMessage(msg.id)} />
+                         </div>
+                       )}
+                       <p>{msg.text}</p>
+                       <span className="message-time">{msg.time}</span>
+                    </div>
+                  </div>
+                ))}
                 <div ref={chatEndRef} />
               </div>
 
               <form className="chat-input-area" onSubmit={handleSendMessage}>
                 <div className="input-wrapper">
-                  <input 
-                    type="text" 
-                    placeholder="Type a message..." 
-                    className="chat-input" 
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                  />
-                  <div className="emoji-trigger-container" ref={emojiPickerRef}>
-                    <Smile 
-                      size={20} 
-                      className="emoji-icon" 
-                      onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
-                    />
+                  <div className="emoji-trigger" ref={emojiPickerRef}>
+                    <Smile size={20} className="cursor-pointer" onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
                     {showEmojiPicker && (
-                      <div className="emoji-picker-popup">
-                        <EmojiPicker 
-                          onEmojiClick={onEmojiClick} 
-                          autoFocusSearch={false}
-                          theme="light"
-                          width={300}
-                          height={400}
-                        />
+                      <div className="emoji-picker-container">
+                        <EmojiPicker onEmojiClick={onEmojiClick} autoFocusSearch={false} />
                       </div>
                     )}
                   </div>
+                  <input 
+                    type="text" 
+                    placeholder="Type your message..." 
+                    className="message-input"
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)}
+                  />
+                  <button type="submit" className="send-btn">
+                    <Send size={18} />
+                  </button>
                 </div>
-                <button type="submit" className="btn-send" disabled={!inputText.trim()}>
-                  <Send size={18} />
-                </button>
               </form>
             </div>
           </div>
         </div>
-      </main>
 
-      {/* Add Lead Modal */}
-      <AnimatePresence>
-        {isAddLeadOpen && (
-          <div className="modal-overlay">
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="modal-content"
-            >
-              <div className="modal-header">
-                <h2>Add New Lead</h2>
-                <button onClick={() => setIsAddLeadOpen(false)} className="close-btn"><X size={20} /></button>
-              </div>
-              <form onSubmit={handleAddLead} className="add-lead-form">
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. John Doe"
-                    value={newLead.name}
-                    onChange={(e) => setNewLead({...newLead, name: e.target.value})}
-                    required
-                  />
+        {/* Add Lead Modal */}
+        <AnimatePresence>
+          {isAddLeadOpen && (
+            <div className="modal-overlay" onClick={() => setIsAddLeadOpen(false)}>
+              <motion.div 
+                className="modal-content"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="modal-header">
+                  <h2>Create New Lead</h2>
+                  <button onClick={() => setIsAddLeadOpen(false)} className="close-btn">
+                    <X size={24} />
+                  </button>
                 </div>
-                <div className="form-group">
-                  <label>Company / Role</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. CEO at SyncSetu"
-                    value={newLead.company}
-                    onChange={(e) => setNewLead({...newLead, company: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="modal-footer">
-                  <button type="button" onClick={() => setIsAddLeadOpen(false)} className="btn-cancel">Cancel</button>
-                  <button type="submit" className="btn-save">Add Lead</button>
-                </div>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+                <form onSubmit={handleAddLead} className="add-lead-form">
+                  <div className="form-group">
+                    <label>Full Name</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Rahul Sharma"
+                      value={newLead.name}
+                      onChange={(e) => setNewLead({...newLead, name: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Company / Role</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Director at ABC Corp"
+                      value={newLead.company}
+                      onChange={(e) => setNewLead({...newLead, company: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" onClick={() => setIsAddLeadOpen(false)} className="btn-cancel">Cancel</button>
+                    <button type="submit" className="btn-save">Add Relationship</button>
+                  </div>
+                </form>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        <div className="growth-watermark">
+          <h2>GROWTH</h2>
+        </div>
+      </main>
     </div>
   );
 };

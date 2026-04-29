@@ -21,7 +21,10 @@ import {
   ArrowRight,
   Trash2,
   Edit3,
-  Link as LinkIcon
+  Link as LinkIcon,
+  BellOff,
+  User,
+  Zap
 } from 'lucide-react';
 
 const PipelinePage = () => {
@@ -33,6 +36,35 @@ const PipelinePage = () => {
   const [editingCardId, setEditingCardId] = useState(null);
   const [newDeal, setNewDeal] = useState({ name: "", subtitle: "", value: "", label: "LEAD" });
   const [activeMenuId, setActiveMenuId] = useState(null);
+
+  // Notification State
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      title: "New Lead Assigned",
+      desc: "Manoj Gupta has been assigned to your pipeline.",
+      time: "2 mins ago",
+      type: "lead",
+      unread: true
+    },
+    {
+      id: 2,
+      title: "Task Reminder",
+      desc: "Follow up with Ananya Kapoor regarding the site visit.",
+      time: "1 hour ago",
+      type: "task",
+      unread: true
+    },
+    {
+      id: 3,
+      title: "Deal Won! 🎉",
+      desc: "Deepak Verma just closed a ₹90,000 deal.",
+      time: "3 hours ago",
+      type: "success",
+      unread: false
+    }
+  ]);
 
   const [pipelineData, setPipelineData] = useState([
     {
@@ -83,6 +115,16 @@ const PipelinePage = () => {
     return total.toLocaleString("en-IN");
   }, [pipelineData]);
 
+  const unreadCount = notifications.filter(n => n.unread).length;
+
+  const markAsRead = (id) => {
+    setNotifications(notifications.map(n => n.id === id ? { ...n, unread: false } : n));
+  };
+
+  const clearAllNotifications = () => {
+    setNotifications([]);
+  };
+
   const openAddModal = (colId = "col-1") => {
     setIsEditMode(false);
     setSelectedColId(colId);
@@ -132,6 +174,17 @@ const PipelinePage = () => {
         }
         return col;
       }));
+
+      // Add notification
+      const newNotif = {
+        id: Date.now(),
+        title: "Deal Created",
+        desc: `${newDeal.name} has been added to ${isClosedCol ? 'Closed' : 'New'} stage.`,
+        time: "Just now",
+        type: "lead",
+        unread: true
+      };
+      setNotifications([newNotif, ...notifications]);
     }
 
     setNewDeal({ name: "", subtitle: "", value: "", label: "LEAD" });
@@ -159,6 +212,19 @@ const PipelinePage = () => {
       }
       return col;
     }));
+
+    // Success notification if moved to closed
+    if (nextColId === "col-4") {
+      const successNotif = {
+        id: Date.now(),
+        title: "Deal Closed! 🏆",
+        desc: `${card.name}'s deal has been moved to Closed stage.`,
+        time: "Just now",
+        type: "success",
+        unread: true
+      };
+      setNotifications([successNotif, ...notifications]);
+    }
   };
 
   const deleteDeal = (cardId, colId) => {
@@ -178,8 +244,11 @@ const PipelinePage = () => {
   };
 
   return (
-    <div className="dashboard-container" onClick={() => setActiveMenuId(null)}>
-      <aside className="sidebar">
+    <div className="dashboard-container" onClick={() => {
+      setActiveMenuId(null);
+      setIsNotificationOpen(false);
+    }}>
+      <aside className="sidebar" onClick={(e) => e.stopPropagation()}>
         <div className="sidebar-logo">SyncSetu</div>
         <nav className="sidebar-nav">
           <a onClick={() => navigate("/dashboard")} className="nav-item cursor-pointer">
@@ -223,7 +292,7 @@ const PipelinePage = () => {
       </aside>
 
       <main className="main-content pipeline-content-wrapper">
-        <header className="pipeline-header">
+        <header className="pipeline-header" onClick={(e) => e.stopPropagation()}>
           <div className="header-left">
             <h1 className="page-title">Pipeline Overview</h1>
             <div className="pipeline-search-bar">
@@ -237,7 +306,69 @@ const PipelinePage = () => {
             </div>
           </div>
           <div className="header-right">
-            <button className="icon-btn" onClick={(e) => e.stopPropagation()}><Bell size={20} /></button>
+            <div className="notification-wrapper">
+              <button 
+                className={`icon-btn ${isNotificationOpen ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsNotificationOpen(!isNotificationOpen);
+                }}
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && <span className="notification-dot"></span>}
+              </button>
+              
+              <AnimatePresence>
+                {isNotificationOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                    className="notification-dropdown"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="dropdown-header">
+                      <h3>Notifications</h3>
+                      {notifications.length > 0 && (
+                        <button className="clear-all-btn" onClick={clearAllNotifications}>Clear all</button>
+                      )}
+                    </div>
+                    <div className="dropdown-body">
+                      {notifications.length === 0 ? (
+                        <div className="empty-state">
+                          <BellOff size={32} />
+                          <p>No notifications yet</p>
+                          <span>We'll let you know when something happens!</span>
+                        </div>
+                      ) : (
+                        notifications.map(notif => (
+                          <div 
+                            key={notif.id} 
+                            className="notification-item" 
+                            onClick={() => markAsRead(notif.id)}
+                          >
+                            <div className={`notif-icon ${
+                              notif.type === 'lead' ? 'bg-teal-light' : 
+                              notif.type === 'task' ? 'bg-slate-light' : 'bg-green-light'
+                            }`}>
+                              {notif.type === 'lead' ? <User size={18} className="text-teal" /> :
+                               notif.type === 'task' ? <Clock size={18} className="text-slate" /> :
+                               <Zap size={18} className="text-green" />}
+                            </div>
+                            <div className="notif-content">
+                              <span className="notif-title">{notif.title}</span>
+                              <span className="notif-desc">{notif.desc}</span>
+                              <span className="notif-time">{notif.time}</span>
+                            </div>
+                            {notif.unread && <div className="unread-glow"></div>}
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <div className="forecast-display">
               <span className="label">Dynamic Forecast</span>
               <span className="amount">₹ {totalForecast}</span>
