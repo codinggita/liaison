@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import PipelinePage from './pages/PipelinePage';
@@ -14,8 +14,20 @@ import './index.css';
 
 // Layout component to keep Sidebar persistent
 const MainLayout = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname.split('/')[1];
+    if (path) {
+      const pageName = path.charAt(0).toUpperCase() + path.slice(1);
+      document.title = `SyncSetu | ${pageName}`;
+    } else {
+      document.title = "SyncSetu | Login";
+    }
+  }, [location]);
+
   return (
-    <div className="app-layout">
+    <div className="app-container">
       <Sidebar />
       <div className="main-content-wrapper">
         <Outlet />
