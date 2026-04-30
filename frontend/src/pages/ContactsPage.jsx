@@ -134,7 +134,7 @@ const ContactsPage = () => {
             <motion.div 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              className="performance-widget outline-card"
+              className="performance-widget premium-container"
             >
               <div className="widget-header">
                 <span className="tiny-label">PERFORMANCE</span>
@@ -163,7 +163,7 @@ const ContactsPage = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="followup-reminder-widget"
+              className="followup-reminder-widget premium-container"
             >
               <div className="reminder-content">
                 <h3>You have 12 follow-ups pending today.</h3>
@@ -174,7 +174,7 @@ const ContactsPage = () => {
             </motion.div>
           </div>
 
-          <div className="contacts-table-container outline-card">
+          <div className="contacts-table-container premium-container">
             <table className="contacts-table">
               <thead>
                 <tr>

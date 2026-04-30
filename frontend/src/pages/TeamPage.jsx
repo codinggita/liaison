@@ -12,8 +12,11 @@ import {
   Users
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import TopHeader from '../components/TopHeader';
+import { useState } from 'react';
 
 const TeamPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const teamMembers = [
     {
       id: 1,
@@ -77,22 +80,15 @@ const TeamPage = () => {
   return (
     <div className="page-content-wrapper">
 
-      <main className="team-main-content">
-        <header className="team-header-v2">
-          <div className="header-left">
-            <h1 className="team-title-main">Team Management</h1>
-            <p className="team-subtitle-main">Manage your collective conversation and WhatsApp statuses.</p>
-          </div>
-          <div className="header-right">
-            <div className="team-search-bar">
-              <Search size={18} className="search-icon-muted" />
-              <input type="text" placeholder="Search team members..." />
-            </div>
-            <button className="icon-btn-header"><Bell size={20} /></button>
-          </div>
-        </header>
+      <main className="main-content team-layout">
+        <TopHeader 
+          title="Team Management" 
+          searchPlaceholder="Search team members..."
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
 
-        <div className="team-content-layout">
+        <div className="team-content-scroll">
           {/* Main List Section */}
           <section className="team-list-section">
             <div className="list-header-row">
@@ -107,7 +103,7 @@ const TeamPage = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="member-item-card"
+                  className="member-item-card premium-lead-item"
                 >
                   <div className="member-avatar-wrapper">
                     <img src={member.avatar} alt={member.name} className="member-avatar-img" />
@@ -157,7 +153,7 @@ const TeamPage = () => {
           {/* Sidebar Section */}
           <aside className="team-side-panel">
             {/* Quick Add Card */}
-            <div className="side-card quick-add-card">
+            <div className="side-card quick-add-card premium-container">
               <h2 className="side-card-title">Quick Add</h2>
               <p className="side-card-desc">Instantly add a new sales representative or admin to your SyncSetu network.</p>
               
@@ -178,7 +174,7 @@ const TeamPage = () => {
             </div>
 
             {/* Network Health Card */}
-            <div className="side-card health-card">
+            <div className="side-card health-card premium-container">
               <div className="health-header">
                 <h2 className="side-card-title">Network Health</h2>
               </div>
@@ -204,7 +200,7 @@ const TeamPage = () => {
             </div>
 
             {/* System Alerts */}
-            <div className="side-card alerts-card">
+            <div className="side-card alerts-card premium-container">
               <h2 className="side-card-title">System Alerts</h2>
               <div className="alerts-list">
                 {alerts.map((alert) => (
