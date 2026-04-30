@@ -6,6 +6,7 @@ import PipelinePage from './pages/PipelinePage';
 import ContactsPage from './pages/ContactsPage';
 import InboxPage from './pages/InboxPage';
 import FollowUpsPage from './pages/FollowUpsPage';
+import TeamPage from './pages/TeamPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import './index.css';
 
@@ -19,7 +20,7 @@ function App() {
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/inbox" element={<InboxPage />} />
         <Route path="/follow-ups" element={<FollowUpsPage />} />
-        <Route path="/team" element={<ComingSoonPage title="Team" />} />
+        <Route path="/team" element={<TeamPage />} />
         <Route path="/settings" element={<ComingSoonPage title="Settings" />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
