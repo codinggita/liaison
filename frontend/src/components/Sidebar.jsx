@@ -9,7 +9,8 @@ import {
   Users,
   Settings,
   HelpCircle,
-  ChevronRight
+  ChevronRight,
+  Plus
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -51,6 +52,17 @@ const Sidebar = () => {
         </div>
       </div>
 
+      <div className="sidebar-action-container">
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="btn-new-message-v2"
+        >
+          <Plus size={20} />
+          <span>New Message</span>
+        </motion.button>
+      </div>
+
       <nav className="sidebar-nav-v2">
         {navItems.map((item, index) => {
           const isActive = location.pathname === item.path;
@@ -88,5 +100,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
 
 
