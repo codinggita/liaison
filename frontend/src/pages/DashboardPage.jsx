@@ -64,6 +64,7 @@ const DashboardPage = () => {
   const [inputText, setInputText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const chatEndRef = useRef(null);
+  const isFirstRender = useRef(true);
   const emojiPickerRef = useRef(null);
 
   useEffect(() => {
@@ -83,6 +84,10 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     scrollToBottom();
   }, [messages]);
 

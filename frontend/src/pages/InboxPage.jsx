@@ -92,11 +92,17 @@ const InboxPage = () => {
   const [messages, setMessages] = useState(chatMessages);
   const activeContact = conversations.find(c => c.id === activeTab);
 
+  const isFirstRender = useRef(true);
+
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     scrollToBottom();
   }, [messages]);
 
