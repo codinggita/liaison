@@ -141,7 +141,7 @@ const InboxPage = () => {
 
       <main className="inbox-main-content">
         {/* Column 2: Conversations List */}
-        <section className="inbox-conversations-column">
+        <section className="inbox-conversations-column premium-container">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -211,7 +211,7 @@ const InboxPage = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.99 }}
                 transition={{ duration: 0.3 }}
-                className="chat-window-inner"
+                className="chat-window-inner premium-container"
                 style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
               >
                 <header className="chat-header-v2">

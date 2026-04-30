@@ -195,7 +195,7 @@ const PipelinePage = () => {
               return (
                 <motion.div 
                   key={column.id} 
-                  className="kanban-column"
+                  className="kanban-column premium-container"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: colIdx * 0.1 }}

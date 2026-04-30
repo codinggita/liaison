@@ -16,28 +16,38 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import TopHeader from '../components/TopHeader';
+import { useState, useEffect } from 'react';
 
 const SettingsPage = () => {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'system');
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: newTheme }));
+  };
+
   return (
     <div className="page-content-wrapper">
 
-      <main className="settings-main-content">
-        <header className="settings-header-v2">
-          <h1 className="settings-title-main">Settings</h1>
-          <div className="header-actions">
-            <button className="icon-btn-header"><Search size={20} /></button>
-            <button className="icon-btn-header"><Bell size={20} /></button>
-          </div>
-        </header>
+      <main className="main-content settings-layout">
+        <TopHeader 
+          title="Settings" 
+          searchPlaceholder="Search settings..."
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
 
-        <div className="settings-content-layout">
+        <div className="settings-content-scroll">
           {/* Upper Section */}
           <div className="settings-top-grid">
             {/* Workspace Settings */}
             <motion.section 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="settings-card workspace-settings"
+              className="settings-card workspace-settings premium-container"
             >
               <div className="card-header-row">
                 <div className="card-title-group">
@@ -118,7 +128,7 @@ const SettingsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="settings-card-mini"
+              className="settings-card-mini premium-container"
             >
               <div className="mini-card-icon-box"><BellRing size={20} /></div>
               <h3 className="mini-card-title">Notifications</h3>
@@ -140,16 +150,31 @@ const SettingsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="settings-card-mini"
+              className="settings-card-mini premium-container"
             >
               <div className="mini-card-icon-box"><Palette size={20} /></div>
               <h3 className="mini-card-title">Appearance</h3>
               <p className="mini-card-desc">Choose the visual aesthetic of your digital workspace.</p>
               
               <div className="appearance-toggle">
-                <div className="theme-option active">Light</div>
-                <div className="theme-option">Dark</div>
-                <div className="theme-option">System</div>
+                <div 
+                  className={`theme-option ${theme === 'light' ? 'active' : ''}`}
+                  onClick={() => handleThemeChange('light')}
+                >
+                  Light
+                </div>
+                <div 
+                  className={`theme-option ${theme === 'dark' ? 'active' : ''}`}
+                  onClick={() => handleThemeChange('dark')}
+                >
+                  Dark
+                </div>
+                <div 
+                  className={`theme-option ${theme === 'system' ? 'active' : ''}`}
+                  onClick={() => handleThemeChange('system')}
+                >
+                  System
+                </div>
               </div>
             </motion.div>
 
@@ -157,7 +182,7 @@ const SettingsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="settings-card-mini"
+              className="settings-card-mini premium-container"
             >
               <div className="mini-card-icon-box"><ShieldCheck size={20} /></div>
               <h3 className="mini-card-title">Security</h3>
@@ -180,7 +205,7 @@ const SettingsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="settings-card-long subscription-card"
+              className="settings-card-long subscription-card premium-container"
             >
               <div className="sub-header">
                 <h3 className="mini-card-title">Subscription</h3>
@@ -203,7 +228,7 @@ const SettingsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="settings-card-long team-seats-card"
+              className="settings-card-long team-seats-card premium-container"
             >
               <h3 className="mini-card-title">Team Members</h3>
               <p className="mini-card-desc">You have 8 active seats out of 12 available.</p>

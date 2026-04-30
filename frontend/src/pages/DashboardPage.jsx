@@ -148,13 +148,13 @@ const DashboardPage = () => {
         />
 
         <div className="dashboard-content">
-          <div className="overview-header">
-            <p className="subtitle">DASHBOARD OVERVIEW</p>
+          <div className="overview-header-v2">
+            <span className="subtitle">DASHBOARD OVERVIEW</span>
             <h1><span className="name">Namaste, Alex.</span> <span className="greeting-text">You have 4 follow-ups scheduled for today.</span></h1>
           </div>
 
           <div className="kpi-grid">
-            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="kpi-card outline-card border-green">
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="premium-kpi-card border-green">
               <div className="kpi-header">
                 <h3>PROJECTED REVENUE</h3>
                 <IndianRupee size={18} className="kpi-icon text-teal" />
@@ -171,7 +171,7 @@ const DashboardPage = () => {
               initial={{ y: 20, opacity: 0 }} 
               animate={{ y: 0, opacity: 1 }} 
               transition={{ delay: 0.2 }} 
-              className="kpi-card outline-card cursor-pointer"
+              className="premium-kpi-card cursor-pointer"
               onClick={() => setIsAddLeadOpen(true)}
             >
               <div className="kpi-header">
@@ -186,7 +186,7 @@ const DashboardPage = () => {
               </div>
             </motion.div>
 
-            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="kpi-card blue-card">
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="premium-kpi-card blue-card">
               <div className="kpi-header">
                 <h3>WIN RATE</h3>
                 <CheckCircle size={18} className="kpi-icon" />
@@ -220,7 +220,7 @@ const DashboardPage = () => {
                       initial={{ x: -20, opacity: 0 }} 
                       animate={{ x: 0, opacity: 1 }} 
                       transition={{ delay: 0.4 + (index * 0.1) }}
-                      className="lead-item"
+                      className="premium-lead-item"
                     >
                       <img src={lead.avatar} alt={lead.name} className="lead-avatar" />
                       <div className="lead-info">
@@ -237,7 +237,7 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="chat-section outline-card">
+            <div className="chat-section premium-chat-section">
               <div className="chat-header">
                 <div className="chat-user">
                   <div className="online-indicator"></div>

@@ -12,8 +12,11 @@ import {
   MessageSquare
 } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import TopHeader from '../components/TopHeader';
+import { useState } from 'react';
 
 const FollowUpsPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const overdueLarge = {
     name: "Rajesh Malhotra",
     status: "OVERDUE 2 DAYS",
@@ -104,19 +107,15 @@ const FollowUpsPage = () => {
   return (
     <div className="page-content-wrapper">
 
-      <main className="follow-ups-main">
-        <header className="follow-ups-header">
-          <div className="header-search-bar">
-            <Search size={18} className="search-icon-muted" />
-            <input type="text" placeholder="Search tasks or contacts..." />
-          </div>
-          <div className="header-actions">
-            <button className="icon-btn-header"><Bell size={20} /></button>
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" className="header-avatar" />
-          </div>
-        </header>
+      <main className="main-content follow-ups-layout">
+        <TopHeader 
+          title="Follow-ups" 
+          searchPlaceholder="Search tasks or contacts..."
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
 
-        <section className="follow-ups-content">
+        <section className="follow-ups-content-scroll">
           <div className="section-intro">
             <h1 className="section-title">Overdue</h1>
             <p className="section-subtitle">Immediate attention required for these relationships.</p>
@@ -127,7 +126,7 @@ const FollowUpsPage = () => {
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="overdue-card-large"
+              className="overdue-card-large premium-container"
             >
               <div className="card-tag overdue">OVERDUE 2 DAYS</div>
               <div className="card-header-row">
@@ -155,7 +154,7 @@ const FollowUpsPage = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="overdue-card-small"
+                  className="overdue-card-small premium-container"
                 >
                   <div className="small-card-avatar-section">
                     {item.avatar ? (
@@ -192,7 +191,7 @@ const FollowUpsPage = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
-                className="focus-card"
+                className="focus-card premium-container"
               >
                 <div className="focus-card-top">
                   <div className="focus-tag" style={{ color: card.color, backgroundColor: `${card.color}15` }}>
@@ -236,7 +235,7 @@ const FollowUpsPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="upcoming-item"
+                className="upcoming-item premium-lead-item"
               >
                 <div className="upcoming-avatar-placeholder">{item.initials}</div>
                 <div className="upcoming-info">

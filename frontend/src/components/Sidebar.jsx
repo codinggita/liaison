@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import logo from '../assets/logo.png';
 import {
   LayoutGrid,
   TrendingUp,
@@ -8,7 +9,7 @@ import {
   BellRing,
   Users,
   Settings,
-  HelpCircle,
+  LogOut,
   ChevronRight,
   Plus
 } from 'lucide-react';
@@ -29,11 +30,15 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar-syncsetu">
-      <div className="sidebar-brand">
+      <div className="sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '8px' }}>
+        <div className="brand-logo-wrapper" style={{ width: '36px', height: '36px', padding: '6px', flexShrink: 0 }}>
+          <img src={logo} alt="SyncSetu Logo" className="brand-logo-img-v2" style={{ width: '100%', height: '100%' }} />
+        </div>
         <motion.h1 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="brand-name"
+          style={{ margin: 0, fontSize: '22px' }}
         >
           SyncSetu
         </motion.h1>
@@ -50,17 +55,6 @@ const Sidebar = () => {
             <span className="user-account-type">Premium Account</span>
           </div>
         </div>
-      </div>
-
-      <div className="sidebar-action-container">
-        <motion.button 
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="btn-new-message-v2"
-        >
-          <Plus size={20} />
-          <span>New Message</span>
-        </motion.button>
       </div>
 
       <nav className="sidebar-nav-v2">
@@ -90,9 +84,9 @@ const Sidebar = () => {
       </nav>
 
       <div className="sidebar-footer">
-        <div className="nav-item-v2 help-support">
-          <HelpCircle size={20} className="nav-icon" />
-          <span className="nav-text">Help Support</span>
+        <div className="nav-item-v2 log-out-btn" onClick={() => navigate('/')}>
+          <LogOut size={20} className="nav-icon" />
+          <span className="nav-text">Log Out</span>
         </div>
       </div>
     </aside>
