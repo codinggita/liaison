@@ -62,9 +62,11 @@ syncsetu/
 ---
 
 ## 📸 Screenshots
-![Dashboard](https://placehold.co/800x450?text=SyncSetu+Dashboard+Preview)
-![Contacts](https://placehold.co/800x450?text=Contacts+Management+UI)
-![Login](https://placehold.co/800x450?text=WhatsApp+OTP+Login+Flow)
+![Dashboard](![Uploading image.png…](https://res.cloudinary.com/dsrczav6p/image/upload/v1777725647/Screenshot_2026-05-02_180842_kzuivg.png)
+)
+![Contacts](https://res.cloudinary.com/dsrczav6p/image/upload/v1777725650/Screenshot_2026-05-02_181019_g4pl3g.png)
+![Login](<img width="1910" height="1044" alt="image" src="https://github.com/user-attachments/assets/feda2ee9-5d63-474e-81d9-3c4e92dc66bc" />
+)
 
 ---
 
