@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "syncsetu-premium-api-2026",
+		"name": "SyncSetu Professional CRM API",
+		"description": "# 🚀 SyncSetu API Documentation\n\nWelcome to the official API documentation for **SyncSetu**, a premium WhatsApp-integrated CRM designed for micro-businesses in India. This API serves as the backbone for contact management, lead tracking, and pipeline automation.\n\n## 🛠️ Authentication & Setup\nCurrently, the API runs on `localhost:5000`. Ensure your backend server is active before testing.\n\n### Base URL\n`{{baseUrl}}` (Defaults to `http://localhost:5000/api`)\n\n---\n\n## 📋 Core Modules\n\n### 1. CRM Contacts\nHandles the complete lifecycle of a client relationship. From initial lead capture to closing high-value deals. Supports full CRUD operations.\n\n### 2. Dashboard Leads\nSpecifically designed for the Dashboard's \"Recent Leads\" widget and quick-action cards.\n\n### 3. System Utilities\nBasic health checks and environment verification.\n\n---\n\n## 🎨 Response Standards\n\n| Attribute | Type | Description |\n| :--- | :--- | :--- |\n| `success` | Boolean | `true` if the request was processed successfully |\n| `count` | Integer | (Optional) Total number of items returned |\n| `data` | Object/Array | The actual payload containing resource data |\n| `error` | String | Error message detail (only on failures) |",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "System",
+			"description": "Essential utility endpoints for monitoring server status.",
+			"item": [
+				{
+					"name": "Server Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								""
+							]
+						},
+						"description": "Verifies that the Express server is up and responding. Use this as a first step if the API seems unreachable."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRM Contacts",
+			"description": "Manage the main contact database. This module supports filtering, sorting, and full data manipulation.",
+			"item": [
+				{
+					"name": "List All Contacts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts"
+							]
+						},
+						"description": "Fetches the entire list of contacts stored in the MongoDB database.\n\n### Output\n- Returns contacts sorted by `createdAt` in descending order.\n- Includes `count` of total results."
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data._id) {",
+									"    pm.environment.set(\"contactId\", jsonData.data._id);",
+									"    console.log(\"Auto-saved contactId: \" + jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sarthak Khalasi\",\n    \"role\": \"Lead Developer\",\n    \"location\": \"Navsari, Gujarat\",\n    \"status\": \"Lead\",\n    \"value\": 50000,\n    \"email\": \"sarthak@syncsetu.com\",\n    \"phone\": \"919876543210\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contacts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts"
+							]
+						},
+						"description": "Creates a new contact record. \n\n**Note:** This request includes a Post-response script that automatically sets the `{{contactId}}` variable for subsequent Get/Put/Delete requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Contact Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/contacts/{{contactId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						},
+						"description": "Fetches a specific contact using their unique MongoDB ObjectId."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contact (Full Replacement)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sarthak Khalasi (Updated)\",\n    \"role\": \"CTO\",\n    \"location\": \"Surat, Gujarat\",\n    \"status\": \"Negotiation\",\n    \"value\": 75000,\n    \"email\": \"sarthak.cto@syncsetu.com\",\n    \"phone\": \"919876543210\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contacts/{{contactId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						},
+						"description": "Used for full updates. All required fields should be present in the body."
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Contact (Partial Update)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Closed\",\n    \"value\": 100000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/contacts/{{contactId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						},
+						"description": "Used for partial updates, such as updating just the status or the deal value."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contact",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/contacts/{{contactId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"contacts",
+								"{{contactId}}"
+							]
+						},
+						"description": "Removes the contact from the system permanently."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard Leads",
+			"description": "Endpoints specifically for the fast-paced Dashboard view.",
+			"item": [
+				{
+					"name": "List All Leads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/leads",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads"
+							]
+						},
+						"description": "Retrieves the list of leads shown on the main dashboard cards."
+					},
+					"response": []
+				},
+				{
+					"name": "Quick Add Lead",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Corporate Partner\",\n    \"company\": \"Tech Solutions Inc\",\n    \"status\": \"New\",\n    \"time\": \"Just now\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/leads",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"leads"
+							]
+						},
+						"description": "Adds a lead directly from the Dashboard quick-add feature."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "contactId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
