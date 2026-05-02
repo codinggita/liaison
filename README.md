@@ -5,9 +5,9 @@
 ---
 
 ## 🔗 Important Links
-*   **🎨 Figma Design**: [Link to Figma Design](https://www.figma.com/) <!-- UPDATE THIS LINK -->
+*   **🎨 Figma Design**: [Link to Figma Design](https://www.figma.com/proto/w5NCRHCEUXH2clk8mVjSjL/Untitled?node-id=8-2712&t=21RMYYyWsCr8utUT-1) <!-- UPDATE THIS LINK -->
 *   **🌐 Live Deployed Project**: [https://sync-setu.vercel.app](https://sync-setu.vercel.app) <!-- UPDATE THIS LINK -->
-*   **📄 Postman API Documentation**: [Postman Collection Link](https://documenter.getpostman.com/) <!-- UPDATE THIS LINK -->
+*   **📄 Postman API Documentation**: [Postman Collection Link](https://documenter.getpostman.com/view/50839386/2sBXqKoL8a) <!-- UPDATE THIS LINK -->
 *   **⚙️ Backend Deployed API**: [https://sync-setu.vercel.app/api](https://sync-setu.vercel.app/api) <!-- UPDATE THIS LINK -->
 *   **🎥 YouTube Demo Video**: [Watch Demo Video](https://youtube.com/) <!-- UPDATE THIS LINK -->
 
