@@ -25,10 +25,10 @@ const ContactsPage = () => {
 
   const filterOptions = [
     { label: "All Contacts", value: "ALL" },
-    { label: "New Leads", value: "NEW" },
-    { label: "Following-up", value: "FOLLOW-UP" },
-    { label: "Won Deals", value: "WON" },
-    { label: "Lost Deals", value: "LOST" }
+    { label: "New Leads", value: "Lead" },
+    { label: "Active Clients", value: "Active" },
+    { label: "In Negotiation", value: "Negotiation" },
+    { label: "Closed / Won", value: "Closed" }
   ];
 
   useEffect(() => {
@@ -49,8 +49,10 @@ const ContactsPage = () => {
         name: formData.name,
         role: formData.business || "Independent Professional",
         location: "India Region",
-        status: formData.stage || "NEW",
-        value: parseInt(formData.value) || 0,
+        status: formData.stage || "Lead",
+        email: formData.email || "",
+        phone: formData.whatsapp || "",
+        value: 0, // Default value as it's not in the form yet
       };
 
       const res = await api.post('/contacts', newContact);
@@ -58,6 +60,7 @@ const ContactsPage = () => {
       setIsModalOpen(false);
     } catch (err) {
       console.error('Error adding contact:', err);
+      // The toast notification is already handled in the api interceptor and AddContactModal onSubmit
     }
   };
 

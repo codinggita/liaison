@@ -177,10 +177,10 @@ const AddContactModal = ({ isOpen, onClose, onAdd }) => {
                       onChange={formik.handleChange}
                     >
                       <option value="">Select Stage</option>
-                      <option value="NEW">New</option>
-                      <option value="CONTACTED">Contacted</option>
-                      <option value="INTERESTED">Interested</option>
-                      <option value="CLOSED">Closed/Won</option>
+                      <option value="Lead">New Lead</option>
+                      <option value="Active">Active Client</option>
+                      <option value="Negotiation">In Negotiation</option>
+                      <option value="Closed">Closed / Won</option>
                     </select>
                     <ChevronDown size={18} className="select-arrow" />
                   </div>
