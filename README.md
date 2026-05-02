@@ -266,6 +266,14 @@ Connect GitHub repo to Vercel for auto-deploys on push to main branch.
 
 ---
 
+## 📖 API Documentation
+The project includes a comprehensive Postman Collection for testing all backend endpoints.
+- **File**: `SyncSetu_API.postman_collection.json` (Root directory)
+- **Import**: Drag and drop this file into Postman to view detailed request descriptions, examples, and automated test scripts.
+- **Endpoints covered**: System Health, CRM Contacts (CRUD), and Dashboard Leads.
+
+---
+
 ## 📜 License
 MIT License - See LICENSE file
 
@@ -291,5 +299,5 @@ MIT License - See LICENSE file
 -  Multi-language support
 
 ---
-*Last Updated: April 27, 2026*  
-*Project Status: Development Phase*
+*Last Updated: May 2, 2026*  
+*Project Status: Industry-Ready / Documentation Complete*

@@ -918,7 +918,7 @@ body {
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 32px;
   margin-bottom: 48px;
 }
 
@@ -1040,7 +1040,7 @@ body {
 .dashboard-bottom {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 32px;
 }
 
 .dashboard-card {
@@ -1754,7 +1754,7 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 32px;
 }
 
 .forecast-display {
@@ -1962,7 +1962,7 @@ body {
 /* Fixed Footer Stats */
 .pipeline-footer-stats {
   display: flex;
-  gap: 24px;
+  gap: 32px;
   padding: 24px 48px;
   background: #ffffff;
   border-top: 1px solid #eef2f1;
@@ -2582,13 +2582,13 @@ body {
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 32px;
 }
 
 .form-group-premium {
@@ -2669,7 +2669,7 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 24px;
+  gap: 32px;
   margin-top: 24px;
 }
 
@@ -3033,7 +3033,7 @@ body {
 .messages-area {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .chat-message-bubble-wrapper {
@@ -3556,7 +3556,7 @@ body {
 .chat-messages-container {
  display: flex;
  flex-direction: column;
- gap: 24px;
+ gap: 32px;
 }
 
 .chat-message-row {
@@ -4139,7 +4139,7 @@ body {
 .overdue-grid {
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 24px;
+  gap: 32px;
   margin-bottom: 48px;
 }
 
@@ -4330,7 +4330,7 @@ body {
 .focus-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 32px;
   margin-bottom: 60px;
 }
 
@@ -4728,7 +4728,7 @@ body {
 .team-side-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .side-card {
@@ -4908,6 +4908,22 @@ body {
    SETTINGS PAGE STYLES
 ========================================================== */
 
+.settings-layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 48px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+
 .settings-page-container {
   display: flex;
   width: 100vw;
@@ -4940,14 +4956,14 @@ body {
 .settings-content-layout {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
   max-width: 1200px;
 }
 
 .settings-top-grid {
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 24px;
+  gap: 32px;
 }
 
 .settings-card {
@@ -4992,7 +5008,7 @@ body {
 .form-grid-v2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 32px;
 }
 
 .input-group-v3 label {
@@ -5177,7 +5193,7 @@ body {
 .settings-middle-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 32px;
 }
 
 .settings-card-mini {
@@ -5294,7 +5310,7 @@ body {
 .settings-bottom-grid {
  display: grid;
  grid-template-columns: 1fr 1.5fr;
- gap: 24px;
+ gap: 32px;
 }
 
 .settings-card-long {
